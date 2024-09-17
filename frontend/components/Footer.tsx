@@ -7,7 +7,7 @@ const Footer = () => {
     <footer>
       
 			<div className="bg-white mt-10 max-md:mt-5 p-12 md:p-16">
-				<div className=" flex flex-col items-center gap-12 md:grid md:gap-16 lg:gap-40 md:grid-cols-2 lg:grid-cols-4 max-md:text-center">
+				<div className=" flex flex-col max-md:items-center gap-12 md:grid md:gap-16 lg:gap-40 md:grid-cols-2 lg:grid-cols-4 max-md:text-center">
 					<div className="flex flex-col max-md:items-center gap-[70px] max-md:gap-10 w-full">
 						<div className="flex flex-col max-md:items-center">
 							<Image src="/e nest.png" width={200} height={45} alt="" />
@@ -33,7 +33,7 @@ const Footer = () => {
 						</div>
 					</div>
 
-					<div className="w-full flex flex-col items-center md:items-end">
+					<div className="w-full flex flex-col max-md:items-center md:items-end">
 						<h3 className="font-semibold text-2xl mb-4">Brand and Security</h3>
 						<ul className="space-y-3">
 							<li>
