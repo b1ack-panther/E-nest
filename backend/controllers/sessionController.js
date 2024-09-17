@@ -9,14 +9,15 @@ exports.bookSession = async (req, res) => {
 
 		if (
 			[mentorId, client.email, sessionType.name, appointmentDate].some(
-				(field) => !field)
+				(field) => !field
+			)
 		) {
-			return res.status(401).json({ error: "Provide all required fields." });
+			return res.status(400).json({ error: "Provide all required fields." });
 		}
 
 		const mentor = await Mentor.findById(mentorId);
 		if (!mentor) {
-			return res.status(403).json({ error: "Mentor not found." });
+			return res.status(404).json({ error: "Mentor not found." });
 		}
 
 		let user = await Client.findOne({ email: client.email });
@@ -27,14 +28,22 @@ exports.bookSession = async (req, res) => {
 
 		const sessionBooking = new SessionBooking({
 			mentor: mentorId,
-			user: user._id,
-			sessionType,
+			client: user._id,
+			sessionType: sessionType.name,
 			appointmentDate,
 		});
 		await sessionBooking.save();
 
-		// Send confirmation email
-    const transporter = nodemailer.createTransport({
+		await Promise.all([
+			Mentor.findByIdAndUpdate(mentorId, {
+				$push: { sessions: sessionBooking._id },
+			}),
+			Client.findByIdAndUpdate(user._id, {
+				$push: { sessions: sessionBooking._id },
+			}),
+		]);
+
+		const transporter = nodemailer.createTransport({
 			host: "smtp.gmail.com",
 			port: 465,
 			secure: true,
@@ -42,9 +51,9 @@ exports.bookSession = async (req, res) => {
 				user: process.env.EMAIL_USER,
 				pass: process.env.EMAIL_PASS,
 			},
-    });
-    
-    const formattedDate = new Intl.DateTimeFormat("en-IN", {
+		});
+
+		const formattedDate = new Intl.DateTimeFormat("en-IN", {
 			day: "2-digit",
 			month: "short",
 			year: "numeric",
@@ -54,14 +63,14 @@ exports.bookSession = async (req, res) => {
 			timeZoneName: "short",
 		}).format(new Date(appointmentDate));
 
-    const mailOptions = {
+		const mailOptions = {
 			to: user.email,
 			subject: "Session Booking Confirmation",
-      text: `Hello ${user.name},\n\nYour session has been booked successfully.\n\nDetails:\nSession Type: ${sessionType}\nDate & Time: ${formattedDate}\n\nThank you!`,
+			text: `Hello ${user.name},\n\nYour session has been booked successfully.\n\nDetails:\nSession Type: ${sessionType?.name}\nDate & Time: ${formattedDate}\n\nThank you!`,
 		};
 
-    const info = await transporter.sendMail(mailOptions);
-    console.log(info);
+		const info = await transporter.sendMail(mailOptions);
+		console.log(info);
 
 		res.json({
 			message: "Session booked successfully and confirmation email sent.",

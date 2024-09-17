@@ -1,28 +1,28 @@
 // for prevent the website from spinnig down on render.com
-const axios = require("axios")
+// const axios = require("axios")
 
-const url = `https://e-nest-ufqm.onrender.com`; 
-const interval = 60000;
+// const url = `https://e-nest-ufqm.onrender.com`; 
+// const interval = 60000;
 
-function reloadWebsite() {
-	axios
-		.get(url)
-		.then((response) => {
-			console.log(
-				`Reloaded at ${new Date().toISOString()}: Status Code ${
-					response.status
-				}`
-			);
-		})
-		.catch((error) => {
-			console.error(
-				`Error reloading at ${new Date().toISOString()}:`,
-				error.message
-			);
-		});
-}
+// function reloadWebsite() {
+// 	axios
+// 		.get(url)
+// 		.then((response) => {
+// 			console.log(
+// 				`Reloaded at ${new Date().toISOString()}: Status Code ${
+// 					response.status
+// 				}`
+// 			);
+// 		})
+// 		.catch((error) => {
+// 			console.error(
+// 				`Error reloading at ${new Date().toISOString()}:`,
+// 				error.message
+// 			);
+// 		});
+// }
 
-setInterval(reloadWebsite, interval);
+// setInterval(reloadWebsite, interval);
 
 
 //Project starts from here

@@ -16,9 +16,8 @@ const MentorSchema = new mongoose.Schema(
 		},
 		sessions: [
 			{
-				client: { type: mongoose.Schema.Types.ObjectId, ref: "Client" },
-				appointmentDateTime: Date,
-				sessionType: String,
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "SessionBooking",
 			},
 		],
 		sessionTypes: [
