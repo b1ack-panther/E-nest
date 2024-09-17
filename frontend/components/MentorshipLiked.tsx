@@ -8,9 +8,9 @@ const MentorshipLiked = () => {
 				People also liked their mentorship
 			</h1>
 			<div className="flex flex-col sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-5 items-center">
-				<MentorCard color="#e1d4e7" />
+				<MentorCard topVoice={true} color="#e1d4e7" />
 				<MentorCard color="#CCEBE9" />
-				<MentorCard color="#DFECB4" />
+				<MentorCard topVoice={true} color="#DFECB4" />
 				<MentorCard color="#F5C6C9" />
 			</div>
 		</section>
