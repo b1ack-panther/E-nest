@@ -1,3 +1,30 @@
+// for prevent the website from spinnig down on render.com
+
+const url = `https://e-nest-ufqm.onrender.com`; 
+const interval = 60000;
+
+function reloadWebsite() {
+	axios
+		.get(url)
+		.then((response) => {
+			console.log(
+				`Reloaded at ${new Date().toISOString()}: Status Code ${
+					response.status
+				}`
+			);
+		})
+		.catch((error) => {
+			console.error(
+				`Error reloading at ${new Date().toISOString()}:`,
+				error.message
+			);
+		});
+}
+
+setInterval(reloadWebsite, interval);
+
+
+//Project starts from here
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -16,6 +43,10 @@ app.get("/mentor/:id", mentorController.getMentorDetails);
 app.post("/mentor", mentorController.createMentor)
 
 app.post("/bookSession", sessionController.bookSession);
+
+app.get("/", (req, res) => {
+	return res.status(200).json({ message: "E-nest app is running."})
+})
 
 const PORT = process.env.PORT || 5000;
 
