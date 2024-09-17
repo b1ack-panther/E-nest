@@ -2,7 +2,7 @@
 const axios = require("axios")
 
 const url = `https://e-nest-ufqm.onrender.com`; 
-const interval = 60000;
+const interval = 30000;
 
 function reloadWebsite() {
 	axios
